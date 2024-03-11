@@ -3,8 +3,9 @@
 }
 .bg-cont{
   background-color: hsl(214, 49%, 22%);
-  height: 100vh;
+  min-height: 100vh;
   padding: 20px;
+
 }
 /* .content-cont{
   
@@ -72,4 +73,15 @@
   background-color: transparent;
   border:none;
   cursor: pointer;
+}
+.textStyle{
+  border: none;
+  background-color: transparent;
+  color: #ffffff;
+  margin-right: 15px;
+  
+}
+.taskItem{
+  display: flex;
+  margin-right: 2px;
 }

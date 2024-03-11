@@ -5,26 +5,32 @@ import TaskItem from '../Components/TaskItem'
 
 export default function Main({tasksList,setTasksList}) {
   const [inputValue, setInputValue] = useState('')  
+ 
+    function addTask() {
+        let taskText = inputValue.trim();
+        let taskCount = 1;
 
-  function addTask(){
-    console.log('addedNewTask')
-    let newId = tasksList.length;
-    let text = inputValue;
-    let count = 0;
-    let newTask = {
-        id: newId,
-        text,
-        count
-    }
-    if(text === ''){
-        alert('Enter valid data')
-    }
-    else{
-        setTasksList(p=>[...p,newTask])
-        setInputValue('')
-    }
+        // Check if the input contains a number at the end
+        const matches = taskText.match(/^(.*?)(\d+)$/);
+        if (matches) {
+        taskText = matches[1].trim();
+        taskCount = parseInt(matches[2], 10);
+        }
 
-  }  
+        if (taskText !== '') {
+        // Create multiple tasks if a number is provided
+        for (let i = 0; i < taskCount; i++) {
+            const newTask = {
+            id: tasksList.length + i, // Ensure unique IDs
+            text: taskText,
+            count: 0
+            };
+            setTasksList(prevTasks => [...prevTasks, newTask]);
+        }
+        }
+
+    setInputValue(''); // Clear the input after adding tasks
+  }
 
   function changeInputValue(event){
     setInputValue(event.target.value)
@@ -35,6 +41,16 @@ export default function Main({tasksList,setTasksList}) {
     setTasksList(filteredList)
     console.log(filteredList)
   }
+
+  const editTask = (taskId, newText) => {
+    const updatedTasksList = tasksList.map(task => {
+      if (task.id === taskId) {
+        return { ...tasksList, text: newText };
+      }
+      return task;
+    });
+    setTasksList(updatedTasksList);
+  };
   
 
   return (
@@ -48,7 +64,7 @@ export default function Main({tasksList,setTasksList}) {
             <ul className="tasks_cont" id="tasksCont">
                 {tasksList.map((each)=>{
                   return(
-                    <TaskItem key={each.id} text={each.text} count={each.count} id={each.id} deleteTaskFunction={deleteTaskFunction}/>
+                    <TaskItem key={each.id} text={each.text} count={each.count} id={each.id} deleteTaskFunction={deleteTaskFunction} onEdit={editTask}/>
                   );
                 })}
             </ul>
