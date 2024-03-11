@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import TaskItem from '../Components/TaskItem'
 
@@ -7,8 +6,13 @@ export default function Main({tasksList,setTasksList}) {
   const [inputValue, setInputValue] = useState('')  
  
     function addTask() {
+
         let taskText = inputValue.trim();
+        if(taskText === ''){
+            alert('Enter Valid Data!')
+        }
         let taskCount = 1;
+
 
         // Check if the input contains a number at the end
         const matches = taskText.match(/^(.*?)(\d+)$/);
@@ -23,7 +27,7 @@ export default function Main({tasksList,setTasksList}) {
             const newTask = {
             id: tasksList.length + i, // Ensure unique IDs
             text: taskText,
-            count: 0
+            count:0
             };
             setTasksList(prevTasks => [...prevTasks, newTask]);
         }
@@ -45,12 +49,14 @@ export default function Main({tasksList,setTasksList}) {
   const editTask = (taskId, newText) => {
     const updatedTasksList = tasksList.map(task => {
       if (task.id === taskId) {
-        return { ...tasksList, text: newText };
+        return { ...task, text: newText ,count:task.count+1};
       }
       return task;
     });
     setTasksList(updatedTasksList);
   };
+
+
   
 
   return (

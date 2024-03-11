@@ -1,18 +1,20 @@
 import React, { useState,useRef } from 'react'
-
-export default function TaskItem({id,text,count,deleteTaskFunction,onEdit}) {
+import { RxCross2 } from "react-icons/rx";
+import { CiEdit } from "react-icons/ci";
+import { MdOutlineSaveAlt } from "react-icons/md";
+export default function TaskItem({id,count,text,deleteTaskFunction,onEdit}) {
    
    const [editMode, setEditMode] = useState(false);
    const [editedText, setEditedText] = useState(text);
    const inputRef = useRef(null); // Create a ref for the input element
-
+   
 
    function deleteTask(){
     deleteTaskFunction(id)
    }
 
    
-   function editTask() {
+   function editTheTask() {
     setEditMode(true);
     // Focus on the input field when entering edit mode
     setTimeout(() => {
@@ -20,6 +22,7 @@ export default function TaskItem({id,text,count,deleteTaskFunction,onEdit}) {
             inputRef.current.focus();
         }
     }, 0);
+    console.log(count)
 }
 
 
@@ -30,10 +33,13 @@ export default function TaskItem({id,text,count,deleteTaskFunction,onEdit}) {
     setEditedText(e.target.value);
   };
 
+  
   const handleSave = () => {
-    onEdit(id, editedText);
+    if (editedText.trim() !== text.trim()) {
+        onEdit(id, editedText);
+    }
     setEditMode(false);
-  };
+};
 
 
 
@@ -48,8 +54,8 @@ export default function TaskItem({id,text,count,deleteTaskFunction,onEdit}) {
                     <p>&#40;Updated <span id="count">{count}</span> times&#41;</p>
                 </div>
                 <div className="btns_cont">
-                    <button className="edit"  onClick={handleSave}>Save</button>
-                    <button className="delete" onClick={deleteTask}>Delete</button>
+                    <button className="edit"  onClick={handleSave}><MdOutlineSaveAlt className='edit-icon'/></button>
+                    <button className="delete" onClick={deleteTask}><RxCross2 className='delete-icon'/></button>
                 </div>
             </>
        ) : (
@@ -59,8 +65,8 @@ export default function TaskItem({id,text,count,deleteTaskFunction,onEdit}) {
                 <p>&#40;Updated <span id="count">{count}</span> times&#41;</p>
             </div>
             <div className="btns_cont">
-                <button className="edit" onClick={editTask}>Edit</button>
-                <button className="delete" onClick={deleteTask}>Delete</button>
+                <button className="edit" onClick={editTheTask}><CiEdit className='edit-icon'/></button>
+                <button className="delete" onClick={deleteTask}><RxCross2 className='delete-icon'/></button>
             </div>
         </>
             

@@ -85,3 +85,12 @@
   display: flex;
   margin-right: 2px;
 }
+.delete-icon{
+  color: red;
+  font-size: 15px;
+}
+.edit-icon{
+  color:white;
+  font-size: 15px;
+  background-color: transparent;
+}
